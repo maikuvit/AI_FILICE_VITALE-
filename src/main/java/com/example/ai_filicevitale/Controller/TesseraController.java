@@ -57,7 +57,7 @@ public class TesseraController
     }
 
     @FXML
-    void ClickTessera(MouseEvent event) throws InterruptedException {
+    void ClickTessera(MouseEvent event) throws Exception {
         Struttura_tessere.getInstance().checkLibere();
         System.out.println("CLICCATO TESSERA " + this.x + " - " + this.y);
         if(!tsr.getLibera()) return;

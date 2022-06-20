@@ -17,7 +17,10 @@ public class HelloApplication extends Application {
         Parent root = fxmlLoader.load();
         HelloController contr = fxmlLoader.getController();
         contr.setStarting();
+
         MossaManager.setup(contr);
+        solver.setup();
+
         Scene scene = new Scene(root, 900, 800);
         stage.setTitle("Mahjong o come si scrive lui!");
         stage.setScene(scene);

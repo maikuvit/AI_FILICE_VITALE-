@@ -7,24 +7,26 @@ import it.unical.mat.embasp.languages.Param;
 
 import com.example.ai_filicevitale.SETTINGS;
 
-@Id("tess")
+@Id("tessera")
 public class Tessera {
-	
-	@Param(0)
+
+    @Param(0)
+    int x;
+    @Param(1)
+    int y;
+    @Param(2)
+    int z;
+
+    @Param(3)
     private int val;
 
-	@Param(1)
-    private SETTINGS.SEMI seme;
-    
-	@Param(2)
-    int x;
-	@Param(3)
-    int y; 
 	@Param(4)
-    int z;
-	
+    private SETTINGS.SEMI seme;
+
     TesseraController ctr;
     boolean tesseraFree = false;
+
+    public Tessera(){}
 
     public Tessera(int val, SETTINGS.SEMI seme, int x, int y, int z) {
         this.val = val;

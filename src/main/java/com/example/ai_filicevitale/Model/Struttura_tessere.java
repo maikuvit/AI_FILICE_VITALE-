@@ -1,6 +1,7 @@
 package com.example.ai_filicevitale.Model;
 
 import com.example.ai_filicevitale.Controller.TesseraController;
+import com.example.ai_filicevitale.solver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -68,7 +69,7 @@ public class Struttura_tessere {
         Layers.get(t.getTsr().z).remove(t.getTsr().x, t.getTsr().y);
     }
 
-    public void checkLibere(){
+    public void checkLibere() throws Exception {
         //TODO CONTROLLA GLI OFFSET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         boolean[][] tempMat = new boolean[8][9];
@@ -87,23 +88,17 @@ public class Struttura_tessere {
                         // le celle a destra e sinistra sono sempre libere (manca controllo sugli strati) ...
                         if(y == 0 || y == tempLay.getDimY() - 1) {
                             tempLay.getTessera(x,y).setLibera();
+                            solver.addFact(tempLay.getTessera(x,y));
                         }
                         else{
                             if(tempLay.getTessera(x,y - 1) == null || tempLay.getTessera(x,y + 1) == null){
                                 tempLay.getTessera(x,y).setLibera();
+                                solver.addFact(tempLay.getTessera(x,y));
                             }
                         }
                     }
                 }
             }
-        }
-
-        //stackoverflow aiutami te ...
-        for (int i = 0; i < tempMat.length; i++) {
-            for (int j = 0; j < tempMat[i].length; j++) {
-                System.out.print(tempMat[i][j] + " ");
-            }
-            System.out.println();
         }
     }
 }
