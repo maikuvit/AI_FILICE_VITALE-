@@ -8,7 +8,7 @@ import it.unical.mat.embasp.languages.Param;
 import com.example.ai_filicevitale.SETTINGS;
 
 @Id("tessera")
-public class Tessera {
+public class Tessera implements java.io.Serializable{
 
     @Param(0)
     int x;

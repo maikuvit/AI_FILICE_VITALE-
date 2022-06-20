@@ -24,11 +24,11 @@ public class solver {
 	
 	private static Handler handler;
 
-	private static InputProgram facts = new ASPInputProgram();;
+	private static InputProgram facts = new ASPInputProgram();
 
 
 	public static void setup() {
-		//Creazione dell'oggetto handler che si occuper� di gestire l'invocazione 
+		//Creazione dell'oggetto handler che si occuperà di gestire l'invocazione
 		//del sistema ASP da utilizzare ...
 		
 		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv-2.exe"));
@@ -39,6 +39,7 @@ public class solver {
 			ASPMapper.getInstance().registerClass(Tessera.class);
 		} catch (ObjectNotValidException | IllegalAnnotationException e1) {
 			e1.printStackTrace();
+			System.out.println("AAAAAAAAAA");
 		}
 
 		//Specifichiamo il programma logico tramite file
