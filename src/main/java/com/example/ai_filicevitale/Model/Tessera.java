@@ -68,10 +68,6 @@ public class Tessera implements java.io.Serializable{
         this.val = val;
     }
 
-    public SETTINGS.SEMI getSeme() {
-        return seme;
-    }
-
     public void setLibera(){
         tesseraFree = true;
         ctr.notify(this);
@@ -81,8 +77,49 @@ public class Tessera implements java.io.Serializable{
         return tesseraFree;
     }
 
-    public void setSeme(SETTINGS.SEMI seme) {
-        this.seme = seme;
+    /*
+        0 CER ,
+        1 BAM ,
+        2 CAR ,
+
+        3 WND ,
+        4 DRA ,
+        5 FIO ,
+        6 STA
+
+         */
+    public void setSeme(int seme) {
+        switch (seme) {
+            case 0: this.seme = SETTINGS.SEMI.CER;
+                break;
+            case 1: this.seme = SETTINGS.SEMI.BAM;
+                break;
+            case 2: this.seme = SETTINGS.SEMI.CAR;
+                break;
+
+            case 3: this.seme = SETTINGS.SEMI.WND;
+                break;
+            case 4: this.seme = SETTINGS.SEMI.DRA;
+                break;
+            case 5: this.seme = SETTINGS.SEMI.FIO;
+                break;
+            case 6: this.seme = SETTINGS.SEMI.STA;
+                break;
+        }
+    }
+
+    public int getSeme() {
+        if(seme == SETTINGS.SEMI.CER) return 0;
+        if(seme == SETTINGS.SEMI.BAM) return 1;
+        if(seme == SETTINGS.SEMI.CAR) return 2;
+        if(seme == SETTINGS.SEMI.WND) return 3;
+        if(seme == SETTINGS.SEMI.DRA) return 4;
+        if(seme == SETTINGS.SEMI.FIO) return 5;
+        return 6;
+    }
+
+    public SETTINGS.SEMI getSemeEnum(){
+        return this.seme;
     }
 
     @Override

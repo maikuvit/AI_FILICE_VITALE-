@@ -33,7 +33,7 @@ public class solver {
 		
 		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv-2.exe"));
 
-		//Specifichiamo i fatti in input
+		//Specifichiamo i fatti in input ...
 		try {
 			ASPMapper.getInstance().registerClass(Mossa.class);
 			ASPMapper.getInstance().registerClass(Tessera.class);
@@ -42,11 +42,11 @@ public class solver {
 			System.out.println("AAAAAAAAAA");
 		}
 
-		//Specifichiamo il programma logico tramite file
+		//Specifichiamo il programma logico tramite file ...
 		InputProgram encoding= new ASPInputProgram();
 		encoding.addFilesPath(encodingResource);
 
-		//Aggiungiamo all'handler il programma logico
+		//Aggiungiamo all'handler il programma logico ...
 		handler.addProgram(encoding);
 
 	}
@@ -59,10 +59,10 @@ public class solver {
 
 		handler.addProgram(facts);
 
-		//L'handler invoca DLV2 in modo SINCRONO dando come input il programma logico e i fatti
+		//L'handler invoca DLV2 in modo SINCRONO dando come input il programma logico e i fatti ...
 		Output output =  handler.startSync();
 
-		//Analizziamo l'answer
+		//Analizziamo l'answer ...
 		AnswerSets answersets = (AnswerSets) output;
 
 		Mossa m = (Mossa) answersets.getOptimalAnswerSets().get(0).getAtoms();

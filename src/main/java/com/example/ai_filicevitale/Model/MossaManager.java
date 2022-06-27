@@ -56,11 +56,11 @@ public class MossaManager {
         if(a.getX() == b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ())
             return false;
         //semi diversi,mossa mai valida ...
-        if(a.getSeme() != b.getSeme()) return false;
+        if(a.getSemeEnum() != b.getSemeEnum()) return false;
         // sono quelle
-        if(a.getSeme() == SETTINGS.SEMI.CER ||
-                a.getSeme() == SETTINGS.SEMI.BAM ||
-                a.getSeme() == SETTINGS.SEMI.CAR)
+        if(a.getSemeEnum() == SETTINGS.SEMI.CER ||
+                a.getSemeEnum() == SETTINGS.SEMI.BAM ||
+                a.getSemeEnum() == SETTINGS.SEMI.CAR)
             return a.getVal() == b.getVal();
 
         return true;
