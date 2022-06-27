@@ -47,7 +47,7 @@ public class TesseraController
     }
 
     public void setSprite(){
-        String path = "/tiles/" + tsr.getSeme() + "_" + tsr.getVal() + ".png";
+        String path = "/tiles/" + tsr.getSemeEnum() + "_" + tsr.getVal() + ".png";
         Image img = new Image (Objects.requireNonNull(getClass().getResourceAsStream(path)));
         TesseraImg.setImage(img);
     }

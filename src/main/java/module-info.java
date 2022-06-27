@@ -7,5 +7,6 @@ module com.example.ai_filicevitale {
     opens com.example.ai_filicevitale to javafx.fxml;
     exports com.example.ai_filicevitale;
     exports com.example.ai_filicevitale.Controller;
+    exports com.example.ai_filicevitale.Model;
     opens com.example.ai_filicevitale.Controller to javafx.fxml;
 }

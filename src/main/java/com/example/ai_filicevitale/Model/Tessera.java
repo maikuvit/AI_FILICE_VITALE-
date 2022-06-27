@@ -21,23 +21,19 @@ public class Tessera implements java.io.Serializable{
     private int val;
 
 	@Param(4)
-    private SETTINGS.SEMI seme;
+    private int seme;
 
     TesseraController ctr;
     boolean tesseraFree = false;
 
     public Tessera(){}
 
-    public Tessera(int val, SETTINGS.SEMI seme, int x, int y, int z) {
+    public Tessera(int val, int seme, int x, int y, int z) {
         this.val = val;
         this.seme = seme;
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-    public int getVal() {
-        return val;
     }
 
     public int getX() {
@@ -62,6 +58,10 @@ public class Tessera implements java.io.Serializable{
 
     public void setZ(int z) {
         this.z = z;
+    }
+
+    public int getVal() {
+        return val;
     }
 
     public void setVal(int val) {
@@ -89,37 +89,21 @@ public class Tessera implements java.io.Serializable{
 
          */
     public void setSeme(int seme) {
-        switch (seme) {
-            case 0: this.seme = SETTINGS.SEMI.CER;
-                break;
-            case 1: this.seme = SETTINGS.SEMI.BAM;
-                break;
-            case 2: this.seme = SETTINGS.SEMI.CAR;
-                break;
-
-            case 3: this.seme = SETTINGS.SEMI.WND;
-                break;
-            case 4: this.seme = SETTINGS.SEMI.DRA;
-                break;
-            case 5: this.seme = SETTINGS.SEMI.FIO;
-                break;
-            case 6: this.seme = SETTINGS.SEMI.STA;
-                break;
-        }
+        this.seme = seme;
     }
 
     public int getSeme() {
-        if(seme == SETTINGS.SEMI.CER) return 0;
-        if(seme == SETTINGS.SEMI.BAM) return 1;
-        if(seme == SETTINGS.SEMI.CAR) return 2;
-        if(seme == SETTINGS.SEMI.WND) return 3;
-        if(seme == SETTINGS.SEMI.DRA) return 4;
-        if(seme == SETTINGS.SEMI.FIO) return 5;
-        return 6;
+        return seme;
     }
 
     public SETTINGS.SEMI getSemeEnum(){
-        return this.seme;
+        if(seme == 0) return SETTINGS.SEMI.CER;
+        if(seme == 1) return SETTINGS.SEMI.BAM;
+        if(seme == 2) return SETTINGS.SEMI.CAR;
+        if(seme == 3) return SETTINGS.SEMI.WND;
+        if(seme == 4) return SETTINGS.SEMI.DRA;
+        if(seme == 5) return SETTINGS.SEMI.FIO;
+        return SETTINGS.SEMI.STA;
     }
 
     @Override

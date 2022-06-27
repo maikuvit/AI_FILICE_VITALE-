@@ -1,7 +1,5 @@
 package com.example.ai_filicevitale.Model;
 
-import com.example.ai_filicevitale.SETTINGS;
-
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -14,19 +12,19 @@ public class Deck_generator {
 
             //genero quelle da nove ...
             for (int i = 1; i < 10; i++) {
-                out.add(new Tessera(i, SETTINGS.SEMI.CER,0,0,0));
-                out.add(new Tessera(i, SETTINGS.SEMI.BAM,0,0,0));
-                out.add(new Tessera(i, SETTINGS.SEMI.CAR,0,0,0));
+                out.add(new Tessera(i, 0,0,0,0));
+                out.add(new Tessera(i, 1,0,0,0));
+                out.add(new Tessera(i, 2,0,0,0));
             }
 
             //genero i venti ...
             for (int i = 1; i < 5; i++) {
-                out.add(new Tessera(i, SETTINGS.SEMI.WND,0,0,0));
+                out.add(new Tessera(i, 3,0,0,0));
             }
 
             //genero i draghi ...
             for (int i = 1; i < 4; i++) {
-                out.add(new Tessera(i, SETTINGS.SEMI.DRA,0,0,0));
+                out.add(new Tessera(i, 4,0,0,0));
             }
 
         }
@@ -34,8 +32,8 @@ public class Deck_generator {
         //aggiungo onori supremi (fiori e stagioni) ...
 
         for(int i = 1; i < 5; i++){
-            out.add(new Tessera(i, SETTINGS.SEMI.FIO,0,0,0));
-            out.add(new Tessera(i, SETTINGS.SEMI.STA,0,0,0));
+            out.add(new Tessera(i, 5,0,0,0));
+            out.add(new Tessera(i, 6,0,0,0));
 
         }
 
