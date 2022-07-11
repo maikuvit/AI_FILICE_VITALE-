@@ -1,5 +1,6 @@
 package com.example.ai_filicevitale;
 
+import com.example.ai_filicevitale.Controller.HelloController;
 import com.example.ai_filicevitale.Model.Mossa;
 import com.example.ai_filicevitale.Model.Tessera;
 import it.unical.mat.embasp.base.Handler;
@@ -9,23 +10,23 @@ import it.unical.mat.embasp.languages.IllegalAnnotationException;
 import it.unical.mat.embasp.languages.ObjectNotValidException;
 import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.ASPMapper;
+import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class solver {
 
-	public solver() {}
-	
-	
+	private static HelloController app;
+
 	private static String encodingResource="encodings/IA";
 	
 	private static Handler handler;
 
 	private static InputProgram facts = new ASPInputProgram();
 
+
+	public static void setController(HelloController appl ) {app = appl;}
 
 	public static void setup() {
 		//Creazione dell'oggetto handler che si occuperà di gestire l'invocazione
@@ -39,7 +40,6 @@ public class solver {
 			ASPMapper.getInstance().registerClass(Tessera.class);
 		} catch (ObjectNotValidException | IllegalAnnotationException e1) {
 			e1.printStackTrace();
-			System.out.println("AAAAAAAAAA");
 		}
 
 		//Specifichiamo il programma logico tramite file ...
@@ -55,7 +55,7 @@ public class solver {
 		facts.addObjectInput(t);
 	}
 
-	public static Mossa prossimaMossa() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
+	public static Mossa prossimaMossa() throws Exception {
 
 		handler.addProgram(facts);
 
@@ -63,12 +63,27 @@ public class solver {
 		Output output =  handler.startSync();
 
 		//Analizziamo l'answer ...
-		AnswerSets answersets = (AnswerSets) output;
+		AnswerSets answerSets = (AnswerSets) output;
 
-		Mossa m = (Mossa) answersets.getOptimalAnswerSets().get(0).getAtoms();
+		try{
+			AnswerSet a  = answerSets.getOptimalAnswerSets().get(0);
+
+			for(Object obj : a.getAtoms()) {
+				if(obj instanceof Mossa) {
+					Mossa m = (Mossa) obj;
+					System.out.println(m.toString());
+					app.execMossaGrafica(m.getX1(),m.getY1());
+					app.execMossaGrafica(m.getX2(),m.getY2());
+				}
+			}
+		}
+		catch(IndexOutOfBoundsException e){
+			System.out.println("Nessun answer set disponibile");
+			Thread.sleep(1000000);
+		}
 
 		facts.clearAll();
-		return m;
+		return null;
 	}
 	
 

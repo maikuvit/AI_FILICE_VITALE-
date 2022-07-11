@@ -108,7 +108,7 @@ public class Tessera implements java.io.Serializable{
 
     @Override
     public String toString() {
-        return val + "" + seme;
+        return String.format("x %d y %d z %d val %d%s", x,y,z,val,getSemeEnum());
     }
 
     public void Observe(TesseraController ctr){

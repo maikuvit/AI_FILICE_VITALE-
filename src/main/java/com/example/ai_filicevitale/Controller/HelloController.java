@@ -4,6 +4,7 @@ import com.example.ai_filicevitale.HelloApplication;
 import com.example.ai_filicevitale.Model.Layer;
 import com.example.ai_filicevitale.Model.Struttura_tessere;
 import com.example.ai_filicevitale.Model.Tessera;
+import com.example.ai_filicevitale.View.tessereGrafiche;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -15,6 +16,8 @@ import java.io.IOException;
 public class HelloController {
     @FXML
     private GridPane tesserePane;
+
+    private tessereGrafiche tGrafiche = new tessereGrafiche();
 
     public GridPane getTesseraContainer(){
         return  tesserePane;
@@ -48,11 +51,18 @@ public class HelloController {
 
                         //aggiungo la tessera alla grid sul campo da gioco ...
                         tesserePane.add(pane, yL + temp.getOffsY(), xL + temp.getOffsX());
-
+                        tGrafiche.insertTesseraController(controller,xL + temp.getOffsX(),yL + temp.getOffsY() );
                     }
                 }
             }
         }
+    }
+
+
+
+    public void execMossaGrafica(int x, int y) throws Exception {
+        System.out.println(String.format("sto cliccando in posizione %s %s ", x, y));
+        tGrafiche.clickTesseraController(x,y);
     }
 
     public void removeTessera(TesseraController t) {

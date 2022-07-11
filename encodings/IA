@@ -1,0 +1,47 @@
+% tessera(X,Y,Z,V,S).
+% mossa(X1,Y1,Z1, X2,Y2,Z2).
+
+%tessera contiene le tessere già verificate come libere da Java
+
+%mossa contiene in output la mossa successiva da eseguire con il tabellone attuale.
+%il nostro obiettivo è quello di guessare la mossa successiva,
+%ottimale per la situazione di gioco attuale.
+
+%~~~~~STRATEGIA DI GIOCO ~~~~~
+%selezionate le mosse possibili, si procede con lo scegliere la mossa che contiene i layer più in alto
+%sul tabellone. Questo perchè, a parità di mossa, quelle più in "alto" permettono di liberare più
+%tessere e quindi aprire a più possibili soluzioni.
+
+
+% ~~~~~ definiamo le mosse possibili ~~~~~
+mossa(X1,Y1,Z1, X2,Y2,Z2) :- tessera(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S),V1 == V2, S <3,X1!= X2.
+mossa(X1,Y1,Z1, X2,Y2,Z2) :- tessera(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S),V1 == V2, S <3,Y1!= Y2.
+mossa(X1,Y1,Z1, X2,Y2,Z2) :- tessera(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S),V1 == V2, S <3,Z1!= Z2.
+
+mossa(X1,Y1,Z1, X2,Y2,Z2) :- tessera(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S), S >=3,X1 != X2.
+mossa(X1,Y1,Z1, X2,Y2,Z2) :- tessera(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S), S >=3,Y1 != Y2.
+mossa(X1,Y1,Z1, X2,Y2,Z2) :- tessera(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S), S >=3,Z1 != Z2.
+
+%cerchi, bambu o caratteri non ammettono tessere con valori diversi
+% ~~~~~ fine mosse possibili ~~~~~
+
+
+%guessing sulla mossa ...
+mossaFatta(A,B,C,D,E,F) | nonfatta(A,B,C,D,E,F) :- mossa(A,B,C,D,E,F).
+%ho solo una mossa accettabile ...
+:- #count{A,B,C,D,E,F : mossaFatta(A,B,C,D,E,F)} != 1.
+
+
+%Supporto per i weak ...
+maxMossaFatta(Z1) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 >= Z2.
+maxMossaFatta(Z2) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 <= Z2.
+
+minMossaFatta(Z1) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 <= Z2.
+minMossaFatta(Z2) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 >= Z2.
+
+
+%weak constraints per decidere la mossa migliore
+:~ maxMossaFatta(Z). [4-Z @2]
+:~ minMossaFatta(Z). [4-Z @1]
+
+
