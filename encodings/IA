@@ -1,4 +1,10 @@
 % tessera(X,Y,Z,V,S).
+
+%tesseraBloccata(X,Y,Z,V,S,XB,YB,ZB,VB,SB)
+% tesseraSbloccabile(X,Y,Z,V,S) :- tesseraBloccata(X,Y,Z,V,S,XB,YB,ZB,VB,SB), mossaFatta(X,Y,Z,_,_,_)
+% mossaFattibile(X1,Y1,Z1, X2,Y2,Z2) :- tesseraSbloccabile(X,Y,Z,V,S) ,
+
+
 % mossa(X1,Y1,Z1, X2,Y2,Z2).
 
 %tessera contiene le tessere già verificate come libere da Java
@@ -43,5 +49,9 @@ minMossaFatta(Z2) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 >= Z2.
 %weak constraints per decidere la mossa migliore
 :~ maxMossaFatta(Z). [4-Z @2]
 :~ minMossaFatta(Z). [4-Z @1]
+
+% hoNuovaMossa :- mossaFattibile()
+%:~ non hoNuovaMossa . [1000 @1]
+
 
 
