@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="AI_FiliceVitale" target="17" />
+      <module name="AI_FiliceVitale" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>

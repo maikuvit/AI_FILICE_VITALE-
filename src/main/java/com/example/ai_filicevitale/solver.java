@@ -52,7 +52,8 @@ public class solver {
 	}
 
 	public static void addFact(Tessera t) throws Exception {
-		facts.addObjectInput(t);
+		//System.out.println(String.format("UN FATTO È %s",t.getWithGlobalIndex().toString()));
+		facts.addObjectInput(t.getWithGlobalIndex());
 	}
 
 	public static Mossa prossimaMossa() throws Exception {
@@ -66,6 +67,7 @@ public class solver {
 		AnswerSets answerSets = (AnswerSets) output;
 
 		try{
+			if(!answerSets.getOptimalAnswerSets().isEmpty()){
 			AnswerSet a  = answerSets.getOptimalAnswerSets().get(0);
 
 			for(Object obj : a.getAtoms()) {
@@ -73,14 +75,21 @@ public class solver {
 					Mossa m = (Mossa) obj;
 					System.out.println(m.toString());
 					app.execMossaGrafica(m.getX1(),m.getY1());
+					Thread.sleep(800);
 					app.execMossaGrafica(m.getX2(),m.getY2());
 				}
 			}
+			}
+			else{
+				System.out.println("ABBIAMO TERMINATO LE MOSSE :D ");
+				Thread.sleep(40000000);
+			}
 		}
-		catch(IndexOutOfBoundsException e){
-			System.out.println("Nessun answer set disponibile");
+		catch(Exception e){
+			e.printStackTrace();
 			Thread.sleep(1000000);
 		}
+
 
 		facts.clearAll();
 		return null;

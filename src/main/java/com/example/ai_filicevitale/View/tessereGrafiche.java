@@ -13,10 +13,10 @@ public class tessereGrafiche {
     List<List<Stack<TesseraController>>> tsr = new ArrayList<>();
 
     public tessereGrafiche(){
-        for(int k = 0; k < 9; k++){
+        for(int k = 0; k < 8; k++){
             List<Stack<TesseraController>> temp = new ArrayList<>();
 
-            for(int p = 0; p < 8; p++){
+            for(int p = 0; p < 9; p++){
                 temp.add(new Stack<>());
             }
             tsr.add(temp);
@@ -24,12 +24,13 @@ public class tessereGrafiche {
     }
 
     public void insertTesseraController(TesseraController t, int x, int y){
-        tsr.get(y).get(x).push(t);
+
+        tsr.get(x).get(y).push(t);
     }
 
     public void clickTesseraController(int x, int y) throws Exception {
-
-        tsr.get(y).get(x).pop().ClickTessera(null);
+        System.out.println(String.format("%d %d",x,y));
+        tsr.get(x).get(y).pop().ClickTessera(null);
     }
 
 }

@@ -1,29 +1,32 @@
 package com.example.ai_filicevitale.Model;
 
 import com.example.ai_filicevitale.Controller.TesseraController;
-
+import com.example.ai_filicevitale.SETTINGS;
 import it.unical.mat.embasp.languages.Id;
 import it.unical.mat.embasp.languages.Param;
 
-import com.example.ai_filicevitale.SETTINGS;
+@Id("tessera")
+public class TesseraGlobal implements java.io.Serializable{
 
-
-public class Tessera implements java.io.Serializable{
-
+    @Param(0)
     int x;
+    @Param(1)
     int y;
+    @Param(2)
     int z;
 
+    @Param(3)
     private int val;
 
+	@Param(4)
     private int seme;
 
     TesseraController ctr;
     boolean tesseraFree = false;
 
-    public Tessera(){}
+    public TesseraGlobal(){}
 
-    public Tessera(int val, int seme, int x, int y, int z) {
+    public TesseraGlobal(int val, int seme, int x, int y, int z) {
         this.val = val;
         this.seme = seme;
         this.x = x;
@@ -65,7 +68,6 @@ public class Tessera implements java.io.Serializable{
 
     public void setLibera(){
         tesseraFree = true;
-        ctr.notify(this);
     }
 
     public boolean getLibera(){
@@ -104,14 +106,5 @@ public class Tessera implements java.io.Serializable{
     @Override
     public String toString() {
         return String.format("x %d y %d z %d val %d%s", x,y,z,val,getSemeEnum());
-    }
-
-    public void Observe(TesseraController ctr){
-        this.ctr = ctr;
-    }
-
-    public TesseraGlobal getWithGlobalIndex(){
-        Layer l = Struttura_tessere.getInstance().getLayer(z);
-        return new TesseraGlobal(val,seme,x + l.getOffsX(),y + l.getOffsY(),z);
     }
 }
