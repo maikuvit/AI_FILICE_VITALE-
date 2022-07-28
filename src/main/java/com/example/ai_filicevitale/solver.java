@@ -3,6 +3,7 @@ package com.example.ai_filicevitale;
 import com.example.ai_filicevitale.Controller.HelloController;
 import com.example.ai_filicevitale.Model.Mossa;
 import com.example.ai_filicevitale.Model.Tessera;
+import com.example.ai_filicevitale.Model.TesseraSbloccabile;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
 import it.unical.mat.embasp.base.Output;
@@ -51,9 +52,13 @@ public class solver {
 
 	}
 
-	public static void addFact(Tessera t) throws Exception {
+	public static void addFactTessera(Tessera t) throws Exception {
 		//System.out.println(String.format("UN FATTO È %s",t.getWithGlobalIndex().toString()));
 		facts.addObjectInput(t.getWithGlobalIndex());
+	}
+
+	public static void addFactSbloccabile(Tessera t1, Tessera s1) throws Exception{
+		facts.addObjectInput(new TesseraSbloccabile(t1.getWithGlobalIndex(), s1.getWithGlobalIndex()));
 	}
 
 	public static Mossa prossimaMossa() throws Exception {
@@ -75,13 +80,14 @@ public class solver {
 					Mossa m = (Mossa) obj;
 					System.out.println(m.toString());
 					app.execMossaGrafica(m.getX1(),m.getY1());
-					Thread.sleep(800);
+					//Thread.sleep(800);
 					app.execMossaGrafica(m.getX2(),m.getY2());
 				}
 			}
 			}
 			else{
 				System.out.println("ABBIAMO TERMINATO LE MOSSE :D ");
+				HelloApplication.stop_game();
 				Thread.sleep(40000000);
 			}
 		}

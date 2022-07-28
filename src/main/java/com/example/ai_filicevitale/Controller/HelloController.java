@@ -61,13 +61,10 @@ public class HelloController {
 
 
     public void execMossaGrafica(int x, int y) throws Exception {
-        System.out.println(String.format("sto cliccando in posizione %s %s ", x, y));
         tGrafiche.clickTesseraController(x,y);
     }
 
     public void removeTessera(TesseraController t) {
-        System.out.println("REMOVING STUFF");
-        System.out.println(tesserePane.getChildren().contains(t.getPane()));
         tesserePane.getChildren().remove(t.getPane());
     }
 }

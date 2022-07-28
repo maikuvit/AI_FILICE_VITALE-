@@ -1,9 +1,10 @@
 % tessera(X,Y,Z,V,S).
 
 %tesseraBloccata(X,Y,Z,V,S,XB,YB,ZB,VB,SB)
-% tesseraSbloccabile(X,Y,Z,V,S) :- tesseraBloccata(X,Y,Z,V,S,XB,YB,ZB,VB,SB), mossaFatta(X,Y,Z,_,_,_)
-% mossaFattibile(X1,Y1,Z1, X2,Y2,Z2) :- tesseraSbloccabile(X,Y,Z,V,S) ,
-
+tesseraSbloccabile(X,Y,Z,V,S) :- tesseraBloccata(X,Y,Z,V,S,XB,YB,ZB,VB,SB), mossaFatta(X,Y,Z,_,_,_).
+mossaFattibile(X1,Y1,Z1, X2,Y2,Z2) :- tesseraSbloccabile(X1,Y1,Z1,V,S), tessera(X2,Y2,Z2,V,S), S <3.
+mossaFattibile(X1,Y1,Z1, X2,Y2,Z2) :- tesseraSbloccabile(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S), S >=3.
+:- mossaFattibile(X,Y,Z,X,Y,Z).
 
 % mossa(X1,Y1,Z1, X2,Y2,Z2).
 
@@ -38,6 +39,7 @@ mossaFatta(A,B,C,D,E,F) | nonfatta(A,B,C,D,E,F) :- mossa(A,B,C,D,E,F).
 :- #count{A,B,C,D,E,F : mossaFatta(A,B,C,D,E,F)} != 1.
 
 
+
 %Supporto per i weak ...
 maxMossaFatta(Z1) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 >= Z2.
 maxMossaFatta(Z2) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 <= Z2.
@@ -47,11 +49,15 @@ minMossaFatta(Z2) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 >= Z2.
 
 
 %weak constraints per decidere la mossa migliore
-:~ maxMossaFatta(Z). [4-Z @2]
-:~ minMossaFatta(Z). [4-Z @1]
+:~ maxMossaFatta(Z). [4-Z @3]
+:~ minMossaFatta(Z). [4-Z @2]
 
-% hoNuovaMossa :- mossaFattibile()
-%:~ non hoNuovaMossa . [1000 @1]
+hoNuovaMossa :- mossaFattibile(X,Y,Z,X1,Y1,Z1).
+
+tesseraUsata(X,Y,Z) :- mossaFatta(X,Y,Z,_,_,_).
+tesseraUsata(X,Y,Z) :- mossaFatta(_,_,_,X,Y,Z).
+hoNuovaMossa :- mossa(X,Y,Z,X1,Y1,Z1), not tesseraUsata(X,Y,Z), not tesseraUsata(X1,Y1,Z1).
+:~ not hoNuovaMossa. [10 @1]
 
 
 

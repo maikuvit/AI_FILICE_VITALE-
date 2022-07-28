@@ -14,6 +14,16 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class HelloApplication extends Application {
+
+    public static Timeline tl;
+
+    private static boolean HO_FINITO = false;
+    public static void stop_game(){
+        tl.stop();
+        System.out.println("gioco terminato!");
+    }
+
+
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
@@ -30,27 +40,26 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        Timeline timeline =
-                new Timeline(new KeyFrame(Duration.millis(2000), e -> {
+        tl =
+                new Timeline(new KeyFrame(Duration.millis(500), e -> {
                     try {
                         execMossa();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        tl.setCycleCount(Animation.INDEFINITE);
+        tl.play();
     }
 
     private void execMossa() throws Exception {
+
         //aggiungo le tessere libere ai fatti ...
         Struttura_tessere.getInstance().checkLibere();
 
         //elaboro la prossima mossa da dlv ...
         solver.prossimaMossa();
 
-        //faccio qualcosa ...
-        System.out.println("qualcosa");
     }
 
     public static void main(String[] args) {

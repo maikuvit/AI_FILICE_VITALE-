@@ -69,6 +69,51 @@ public class Struttura_tessere {
         Layers.get(t.getTsr().z).remove(t.getTsr().x, t.getTsr().y);
     }
 
+    public void checkSbloccabili() throws Exception {
+        // devo controllare se ho una tessera sopra ...
+        boolean[][] tempMat = new boolean[8][9];
+
+        //controlla partendo dal primo layer (si scorrono al contrario) ...
+        for(int k = Layers.size(); k > 0; k-- ) {
+            Layer tempLay = Layers.get(k - 1);
+            int tempOffsetX = tempLay.getOffsX();
+            int tempOffsetY = tempLay.getOffsY();
+
+            for(int x = 0; x < tempLay.getDimX(); x++){
+                for(int y = 0; y < tempLay.getDimY(); y++) {
+                    //se ho una tessera in un punto ...
+                    if(!tempMat[x + tempOffsetX][y + tempOffsetY] && tempLay.getTessera(x,y) != null) {
+                        //segno di avere una tessera ...
+                        tempMat[x + tempOffsetX][y + tempOffsetY] = true;
+
+
+                        Tessera temptessera = tempLay.getTessera(x,y);
+                        //se ho una tessera sbloccabile ...
+                        if(temptessera != null && temptessera.getLibera()){
+                            //qui ho una tessera che non è nulla ed è libera ...
+
+                            //controllo se a destra ho qualcosa ...
+                            if(y + 1 < tempLay.getDimY() && tempLay.getTessera(x,y + 1) != null && !tempMat[x][y + 1]){
+                                //se trovo qualcosa, quella tessera a destra è sbloccabile ...
+                                if(!tempLay.getTessera(x, y + 1).getLibera())
+                                    solver.addFactSbloccabile(temptessera,tempLay.getTessera(x,y + 1));
+                            }
+
+                            //controllo se a sinistra ho qualcosa ...
+                            if(y - 1 > 0 && tempLay.getTessera(x, y - 1) != null && !tempMat[x][y - 1]){
+                                //se a sinistra trovo qualcosa, quella è sbloccabile ...
+                                if(!tempLay.getTessera(x, y - 1).getLibera())
+                                    solver.addFactSbloccabile(temptessera,tempLay.getTessera(x,y - 1));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
     public void checkLibere() throws Exception {
         //TODO CONTROLLA GLI OFFSET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -85,15 +130,15 @@ public class Struttura_tessere {
                         //segno di avere una tessera ...
                         tempMat[x + tempOffsetX][y + tempOffsetY] = true;
 
-                        // le celle a destra e sinistra sono sempre libere (manca controllo sugli strati) ...
+                        // le celle a destra e sinistra sono sempre libere  ...
                         if(y == 0 || y == tempLay.getDimY() - 1) {
                             tempLay.getTessera(x,y).setLibera();
-                            solver.addFact(tempLay.getTessera(x,y));
+                            solver.addFactTessera(tempLay.getTessera(x,y));
                         }
                         else{
                             if(tempLay.getTessera(x,y - 1) == null || tempLay.getTessera(x,y + 1) == null){
                                 tempLay.getTessera(x,y).setLibera();
-                                solver.addFact(tempLay.getTessera(x,y));
+                                solver.addFactTessera(tempLay.getTessera(x,y));
                             }
                         }
                     }

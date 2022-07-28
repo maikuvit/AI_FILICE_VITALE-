@@ -59,7 +59,6 @@ public class TesseraController
     @FXML
     public void ClickTessera(MouseEvent event) throws Exception {
         Struttura_tessere.getInstance().checkLibere();
-        System.out.println("CLICCATO TESSERA " + this.x + " - " + this.y + " - " + this.layer);
         if(!tsr.getLibera()) return;
         highlight();
         MossaManager.getInstance().inserisciTessera(this);

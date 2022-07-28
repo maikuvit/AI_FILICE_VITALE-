@@ -29,7 +29,6 @@ public class tessereGrafiche {
     }
 
     public void clickTesseraController(int x, int y) throws Exception {
-        System.out.println(String.format("%d %d",x,y));
         tsr.get(x).get(y).pop().ClickTessera(null);
     }
 
