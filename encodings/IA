@@ -1,23 +1,19 @@
+%tessera contiene le tessere già verificate come libere da Java
 % tessera(X,Y,Z,V,S).
 
+%tesseraBloccata indica le tessera bloccata e la tessera bloccante
 %tesseraBloccata(X,Y,Z,V,S,XB,YB,ZB,VB,SB)
-tesseraSbloccabile(X,Y,Z,V,S) :- tesseraBloccata(X,Y,Z,V,S,XB,YB,ZB,VB,SB), mossaFatta(X,Y,Z,_,_,_).
-mossaFattibile(X1,Y1,Z1, X2,Y2,Z2) :- tesseraSbloccabile(X1,Y1,Z1,V,S), tessera(X2,Y2,Z2,V,S), S <3.
-mossaFattibile(X1,Y1,Z1, X2,Y2,Z2) :- tesseraSbloccabile(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S), S >=3.
-:- mossaFattibile(X,Y,Z,X,Y,Z).
-
-% mossa(X1,Y1,Z1, X2,Y2,Z2).
-
-%tessera contiene le tessere già verificate come libere da Java
 
 %mossa contiene in output la mossa successiva da eseguire con il tabellone attuale.
+% mossa(X1,Y1,Z1, X2,Y2,Z2).
+
 %il nostro obiettivo è quello di guessare la mossa successiva,
 %ottimale per la situazione di gioco attuale.
 
 %~~~~~STRATEGIA DI GIOCO ~~~~~
-%selezionate le mosse possibili, si procede con lo scegliere la mossa che contiene i layer più in alto
-%sul tabellone. Questo perchè, a parità di mossa, quelle più in "alto" permettono di liberare più
-%tessere e quindi aprire a più possibili soluzioni.
+% selezionate le mosse possibili, si procede con lo scegliere la mossa che contiene i layer più in alto
+% sul tabellone. Questo perchè, a parità di mossa, quelle più in "alto" permettono di liberare più
+% tessere e quindi aprire a più possibili soluzioni.
 
 
 % ~~~~~ definiamo le mosse possibili ~~~~~
@@ -38,8 +34,6 @@ mossaFatta(A,B,C,D,E,F) | nonfatta(A,B,C,D,E,F) :- mossa(A,B,C,D,E,F).
 %ho solo una mossa accettabile ...
 :- #count{A,B,C,D,E,F : mossaFatta(A,B,C,D,E,F)} != 1.
 
-
-
 %Supporto per i weak ...
 maxMossaFatta(Z1) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 >= Z2.
 maxMossaFatta(Z2) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 <= Z2.
@@ -47,17 +41,26 @@ maxMossaFatta(Z2) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 <= Z2.
 minMossaFatta(Z1) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 <= Z2.
 minMossaFatta(Z2) :- mossaFatta(_,_,Z1,_,_,Z2), Z1 >= Z2.
 
-
 %weak constraints per decidere la mossa migliore
 :~ maxMossaFatta(Z). [4-Z @3]
 :~ minMossaFatta(Z). [4-Z @2]
 
-hoNuovaMossa :- mossaFattibile(X,Y,Z,X1,Y1,Z1).
+% qui controlliamo se ci sta una mossa fattibile con le tessere che vengono sbloccate dalla mossa fatta ...
+tesseraSbloccabile(X,Y,Z,V,S) :- tesseraBloccata(X,Y,Z,V,S,XB,YB,ZB,VB,SB), mossaFatta(X,Y,Z,_,_,_).
+mossaFattibile(X1,Y1,Z1, X2,Y2,Z2) :- tesseraSbloccabile(X1,Y1,Z1,V,S), tessera(X2,Y2,Z2,V,S), S <3.
+mossaFattibile(X1,Y1,Z1, X2,Y2,Z2) :- tesseraSbloccabile(X1,Y1,Z1,V1,S),tessera(X2,Y2,Z2,V2,S), S >=3.
 
+%non voglio una mossa che include la stessa tessera due volte ...
+:- mossaFattibile(X,Y,Z,X,Y,Z).
+
+%qui controllo che ci sia una mossa fattibile senza le tessere già usate ...
+    %predicato di supporto ...
 tesseraUsata(X,Y,Z) :- mossaFatta(X,Y,Z,_,_,_).
 tesseraUsata(X,Y,Z) :- mossaFatta(_,_,_,X,Y,Z).
+
+%ho una nuova mossa se ho mossa da tessere sbloccate oppure ho un'altra mossa da tessere già libere ...
+hoNuovaMossa :- mossaFattibile(X,Y,Z,X1,Y1,Z1).
 hoNuovaMossa :- mossa(X,Y,Z,X1,Y1,Z1), not tesseraUsata(X,Y,Z), not tesseraUsata(X1,Y1,Z1).
-:~ not hoNuovaMossa. [10 @1]
 
-
-
+%pago al livello massimo il non avere una mossa ...
+:~ not hoNuovaMossa. [1 @1]
