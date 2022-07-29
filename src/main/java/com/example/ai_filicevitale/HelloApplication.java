@@ -41,7 +41,7 @@ public class HelloApplication extends Application {
         stage.show();
 
         tl =
-                new Timeline(new KeyFrame(Duration.millis(500), e -> {
+                new Timeline(new KeyFrame(Duration.millis(800), e -> {
                     try {
                         execMossa();
                     } catch (Exception ex) {
